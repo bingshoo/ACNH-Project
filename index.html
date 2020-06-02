@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+    <title>ACNH: Daily To-Do List</title>
+
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="d-flex align-items-center flex-column">
+        <h1>Current Time and Date:</h1>
+        <h1 id="currDateTime"></h1>
+        <h5>Or if you are a time travler input your time and date</h5>
+        <form id="time-travel-form">
+            <input type="datetime-local" id="time-travler-datetime" name="ttdatetime" value="">
+            <input type="button" id="time-traver-submit" value="Time Travel!">
+            <input type="button" id="current-time-submit" value="Go back to the present">
+        </form>
+        <h5>Which Hemisphere are you in?</h5>
+        <form>
+            <input type="radio" id="northern-hemisphere" name="hemisphere" value="northern hemisphere" checked="checked">
+            <label for="northern-hemisphere">Northern Hemisphere</label>
+            <input type="radio" id="southern-hemisphere" name="hemisphere" value="southern hemisphere">
+            <label for="southern-hemisphere">Southern Hemisphere</label>
+        </form>
+        <h5>Fish or Bugs</h5>
+        <form>
+            <input type="checkbox" id="fish-toggle" name="fish" value="possible fish">
+            <label for="fish-toggle">Available Fish</label>
+            <input type="checkbox" id="bug-toggle" name="bug" value="possible bug">
+            <label for="bug-toggle">Available Bugs</label>
+        </form>
+        <table id="bug-fish-table" width=50%>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Sell Price</th>
+              <th>Shadow Size</th>
+              <th>Icon</th>
+              <th>Image</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+    </div>
+  
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>
