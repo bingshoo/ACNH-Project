@@ -119,6 +119,8 @@ function isAvailable(item) {
 
     if (item.availability.isAllYear) {
         return (checkTime(item.availability.time));
+    } else {
+        return (calculateAvailability(item.availability, isNorthernHemisphere));
     }
     // TODO need to fix
     return false;
@@ -134,7 +136,9 @@ function checkTime(timeIntervalString) {
     let startTime;
     let endTime;
 
-    if(secondTime.includes("pm")) {
+    // will need to deal with times with multiple intervals
+    // bugs data is bugging out on this includes pm but fish are working fine
+    if(firstTime.includes("pm")) {
         let temp = parseInt(firstTime.replace("pm", ""));
         possibleStartTime = temp + 12;
     } else {
@@ -150,10 +154,28 @@ function checkTime(timeIntervalString) {
 
     startTime = Math.min(possibleStartTime, possibleEndTime);
     endTime = Math.max(possibleStartTime, possibleEndTime);
+    // need to fix newHours
+    let newHours = new Array(24);
+    for (var i = 0; i < 24; i++) {
+        if (i >= startTime && i < endTime) {
+            newHours[i] = true;
+        } else {
+            newHours[i] = false;
+        }
+    }
 
-    // need to double check this for when start time is in PM and end time is AM
     let currentHour = currentDate.getHours();
-    return (currentHour >= startTime && currentHour < endTime);
-
+    return newHours[currentHour];
 }
 
+function calculateAvailability(availability, isNorthernHemisphere) {
+    // should parse month and time then compare with currentDate
+    let availableMonths = isNorthernHemisphere? availability["month-array-northern"] : availability["month-array-southern"]; 
+    if (!availableMonths.includes(currentDate.getMonth + 1)) {
+        return false;
+    }
+    if (availability.isAllDay) {
+        return true;
+    }
+    return checkTime(availability.time)
+}
