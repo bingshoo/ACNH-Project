@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#time-travel-form").onchange = timeTravel;
     document.querySelector("#fish-toggle").onclick = displayCatchable;
     document.querySelector("#bug-toggle").onclick = displayCatchable;
+    document.querySelector("#northern-hemisphere").onclick = displayCatchable;
+    document.querySelector("#southern-hemisphere").onclick = displayCatchable;
     document.querySelector("#current-time-submit").onclick = () => {
         currentDate = new Date();
         clearInterval(showTimeInterval);
@@ -37,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showTimeInterval = setInterval(showTime, 500);
 });
 
+// need to fix time not updating properly 
 function showTime() {
     var hour = currentDate.getHours();
     var minute = currentDate.getMinutes();
@@ -54,7 +57,7 @@ function timeTravel() {
         currentDate = new Date(travelDateTime.value); 
         alert(`Welcome to ${currentDate.toDateString()}`);
         clearInterval(showTimeInterval);
-        showTimeInterval = setInterval(showTime, 1000);
+        showTimeInterval = setInterval(showTime, 500);
     } catch (e) {
         alert(`Insert a date to travel to!`);
     }
@@ -103,8 +106,6 @@ function insertIntoBugFishTable(bugFish) {
                 newContent = document.createTextNode(bugFish[attributes[i]]);
             }
         } else {
-            // TODO need to fix the images 
-            // need to make sure that the fish are displayed in order
             let imageNode = document.createElement('img');
             imageNode.src = bugFish[attributes[i]];
             imageNode.alt = attributes[i];
@@ -169,8 +170,6 @@ function checkTime(timeIntervalString) {
             }
         }
     }
-
-
     let currentHour = currentDate.getHours();
     return newHours[currentHour];
 }
