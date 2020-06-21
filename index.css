@@ -5,3 +5,22 @@
 h5 {
     margin: 10px;
 }
+
+body {
+    background-image: url('https://i0.wp.com/nintendosoup.com/wp-content/uploads/2020/02/animal-crossing-new-horizons-walmart-wallpaper-feb192020-1.jpeg?resize=768%2C480&ssl=1');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.col-xl-auto {
+    background-color: beige;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+td {
+    text-transform: capitalize;
+    width: 33%;
+    height: 33%;
+}

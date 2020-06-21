@@ -13,8 +13,12 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <div class="d-flex align-items-center flex-column">
-        <h1>Current Time and Date:</h1>
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-">
+        </div>
+        <div class="col-xl-auto">
+          <h1>Current Time and Date:</h1>
         <h1 id="currDateTime"></h1>
         <h5>Or if you are a time travler input your time and date</h5>
         <form id="time-travel-form">
@@ -36,7 +40,7 @@
             <input type="checkbox" id="bug-toggle" name="bug" value="possible bug">
             <label for="bug-toggle">Available Bugs</label>
         </form>
-        <table id="bug-fish-table" width=50%>
+        <table id="bug-fish-table" width=100%>
           <thead>
             <tr>
               <th>Name</th>
@@ -47,9 +51,11 @@
           <tbody>
           </tbody>
         </table>
+        </div>
+        <div class="col-">
+        </div>
+      </div>
     </div>
-  
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

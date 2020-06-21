@@ -8,21 +8,17 @@ var bugFishTable;
 var fishTableEntries;
 
 // needs to make sure this finishes loading first 
-for(var fishID = 1; fishID <= 80; fishID++) {
-    fetch('http://acnhapi.com/v1/fish/' + fishID)
+fetch('http://acnhapi.com/v1/fish/')
     .then(response => response.json())
-    .then(data => allFish.push(data));
-}
+    .then(data => allFish = Object.values(data));
 
-for(var bugID = 1; bugID <= 80; bugID++) {
-    fetch('http://acnhapi.com/v1/bugs/' + bugID)
+fetch('http://acnhapi.com/v1/bugs/')
     .then(response => response.json())
-    .then(data => allBugs.push(data))
+    .then(data => allBugs = Object.values(data))
     .catch(error => {
         console.log("Error with grabbing bug data");
         // alert("Reload the page");
     });
-}
 
 document.addEventListener("DOMContentLoaded", () => {
     showTime();
@@ -35,10 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#current-time-submit").onclick = () => {
         currentDate = new Date();
         clearInterval(showTimeInterval);
-        showTimeInterval = setInterval(showTime, 1000);
+        showTimeInterval = setInterval(showTime, 500);
         alert(`Welcome back to the present!`)
     };
-    showTimeInterval = setInterval(showTime, 1000);
+    showTimeInterval = setInterval(showTime, 500);
 });
 
 function showTime() {
@@ -99,7 +95,13 @@ function insertIntoBugFishTable(bugFish) {
     for(let i= 0; i<3; i++) {
         let newCell = newRow.insertCell(i);
         if (i < 2) {
-            newContent = document.createTextNode(bugFish[attributes[i]]);
+            if (i === 0) {
+                let name = bugFish[attributes[i]];
+                let fixedName = name.replace(/_/g, " ");
+                newContent = document.createTextNode(fixedName);
+            } else {
+                newContent = document.createTextNode(bugFish[attributes[i]]);
+            }
         } else {
             // TODO need to fix the images 
             // need to make sure that the fish are displayed in order
@@ -121,9 +123,8 @@ function isAvailable(item) {
     if (item.availability.isAllYear) {
         return (checkTime(item.availability.time));
     } else {
-        return (calculateAvailability(item.availability, isNorthernHemisphere));
+        return (calculateAvailability(item, isNorthernHemisphere));
     }
-    // TODO need to fix
     return false;
 
 }
@@ -134,11 +135,7 @@ function checkTime(timeIntervalString) {
     let secondTime = timeIntervalArray[1];
     let possibleStartTime;
     let possibleEndTime;
-    let startTime;
-    let endTime;
 
-    // will need to deal with times with multiple intervals
-    // bugs data is bugging out on this includes pm but fish are working fine
     if(firstTime.includes("pm")) {
         let temp = parseInt(firstTime.replace("pm", ""));
         possibleStartTime = temp + 12;
@@ -178,14 +175,17 @@ function checkTime(timeIntervalString) {
     return newHours[currentHour];
 }
 
-function calculateAvailability(availability, isNorthernHemisphere) {
+function calculateAvailability(item, isNorthernHemisphere) {
     // should parse month and time then compare with currentDate
-    let availableMonths = isNorthernHemisphere? availability["month-array-northern"] : availability["month-array-southern"]; 
+    let availableMonths = isNorthernHemisphere? item.availability["month-array-northern"] : item.availability["month-array-southern"]; 
+    if(item["file-name"] === "king_salmon" || item["file-name"] === "salmon") {
+        availableMonths = isNorthernHemisphere? [parseInt(item.availability["month-northern"])] : [parseInt(item.availability["month-southern"])]; 
+    }
     if (!availableMonths.includes(currentDate.getMonth() + 1)) {
         return false;
     }
-    if (availability.isAllDay) {
+    if (item.availability.isAllDay) {
         return true;
     }
-    return checkTime(availability.time)
+    return checkTime(item.availability.time)
 }
