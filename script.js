@@ -8,11 +8,11 @@ var bugFishTable;
 var fishTableEntries;
 
 // needs to make sure this finishes loading first 
-fetch('http://acnhapi.com/v1/fish/')
+fetch('https://acnhapi.com/v1/fish/')
     .then(response => response.json())
     .then(data => allFish = Object.values(data));
 
-fetch('http://acnhapi.com/v1/bugs/')
+fetch('https://acnhapi.com/v1/bugs/')
     .then(response => response.json())
     .then(data => allBugs = Object.values(data))
     .catch(error => {
