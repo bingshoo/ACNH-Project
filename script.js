@@ -102,6 +102,7 @@ function insertIntoBugFishTable(bugFish) {
             newContent = document.createTextNode(bugFish[attributes[i]]);
         } else {
             // TODO need to fix the images 
+            // need to make sure that the fish are displayed in order
             let imageNode = document.createElement('img');
             imageNode.src = bugFish[attributes[i]];
             imageNode.alt = attributes[i];
@@ -128,7 +129,7 @@ function isAvailable(item) {
 }
 
 function checkTime(timeIntervalString) {
-    let timeIntervalArray = timeIntervalString.split(" - ");
+    let timeIntervalArray = timeIntervalString.includes(" to ") ? timeIntervalString.split(" to ") : timeIntervalString.split(" - ");
     let firstTime = timeIntervalArray[0];
     let secondTime = timeIntervalArray[1];
     let possibleStartTime;
@@ -152,17 +153,26 @@ function checkTime(timeIntervalString) {
         possibleEndTime = parseInt(secondTime.replace("am", ""));
     }
 
-    startTime = Math.min(possibleStartTime, possibleEndTime);
-    endTime = Math.max(possibleStartTime, possibleEndTime);
-    // need to fix newHours
+    // find better way to do this 
     let newHours = new Array(24);
-    for (var i = 0; i < 24; i++) {
-        if (i >= startTime && i < endTime) {
-            newHours[i] = true;
-        } else {
-            newHours[i] = false;
+    if(possibleStartTime < possibleEndTime) {
+        for (var i = 0; i < 24; i++) {
+            if (i >= possibleStartTime && i < possibleEndTime) {
+                newHours[i] = true;
+            } else {
+                newHours[i] = false;
+            }
+        }
+    } else {
+        for (var i = 0; i < 24; i++) {
+            if (i <= possibleStartTime && i > possibleEndTime) {
+                newHours[i] = false;
+            } else {
+                newHours[i] = true;
+            }
         }
     }
+
 
     let currentHour = currentDate.getHours();
     return newHours[currentHour];
@@ -171,7 +181,7 @@ function checkTime(timeIntervalString) {
 function calculateAvailability(availability, isNorthernHemisphere) {
     // should parse month and time then compare with currentDate
     let availableMonths = isNorthernHemisphere? availability["month-array-northern"] : availability["month-array-southern"]; 
-    if (!availableMonths.includes(currentDate.getMonth + 1)) {
+    if (!availableMonths.includes(currentDate.getMonth() + 1)) {
         return false;
     }
     if (availability.isAllDay) {
